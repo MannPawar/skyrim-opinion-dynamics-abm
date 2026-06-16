@@ -1,0 +1,5 @@
+model,scenario,mean,pop_sd,pct_neutral_trough,pct_opposing_pole
+Null (random drift),Imperial,0.3641,0.2534,21.01,20.02
+Structured (primary),Imperial,0.2951,0.1707,0.66,4.95
+Null (random drift),Stormcloak,0.6028,0.2605,22.2,24.17
+Structured (primary),Stormcloak,0.7094,0.1199,0.45,1.99

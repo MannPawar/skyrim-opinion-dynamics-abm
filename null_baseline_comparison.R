@@ -8,7 +8,7 @@
 #
 #  The drift SD is CALIBRATED to the full model's own mean per-step
 #  opinion-change SD, so the null injects the same per-step "energy"
-#  as the structured model — it differs only in STRUCTURE, not
+#  as the structured model - it differs only in STRUCTURE, not
 #  magnitude. This pre-empts the objection that the null is a
 #  strawman tuned to lose.
 #
@@ -186,7 +186,7 @@ create_scenarios <- function() {
 # ============================================================
 # Runs the STRUCTURED social update (zealot-anchored) but only to
 # record the per-step SD of the endogenous delta. Returns the mean
-# across steps — used as the null model's drift SD.
+# across steps - used as the null model's drift SD.
 calibrate_drift_sd <- function(ag, schedule, n_cal = 5) {
   n <- ag$n; K <- CONFIG$K_INTERACTIONS
   race_int <- as.integer(factor(ag$race))

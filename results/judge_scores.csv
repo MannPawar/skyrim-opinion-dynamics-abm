@@ -1,0 +1,94 @@
+Scenario,Name,stance,voice,pass,reason
+Imperial,Brina Merilis,5,4,TRUE,Imperial-satisfied; correct
+Imperial,Dengeir of Stuhn,5,4,TRUE,Imperial; cites Thalmor threat
+Imperial,Thongvor Silver-Blood,5,4,TRUE,pro-Empire shield framing
+Imperial,Ondolemar,4,4,TRUE,conflicted-leaning-Imperial; fits band
+Imperial,Maven Black-Briar,5,5,TRUE,shrewd self-interested Imperial; vivid
+Imperial,Elisif the Fair,5,4,TRUE,noble pro-Empire; unity theme
+Imperial,General Tullius,5,4,TRUE,terse commanding loyalist; correct
+Imperial,Legate Rikke,4,3,TRUE,correct but very terse/generic
+Imperial,Balgruuf the Greater,5,4,TRUE,order-restored Imperial
+Imperial,Fralia Gray-Mane,5,5,TRUE,defeated-but-defiant Stormcloak; correct for outcome
+Imperial,Idolaf Battle-Born,4,3,TRUE,correct and plain
+Imperial,Vignar Gray-Mane,5,4,TRUE,matches assigned Imperial stance (canon-divergent ABM draw)
+Imperial,Brunwulf Free-Winter,5,5,TRUE,false-peace defiance; strong
+Imperial,Galmar Stone-Fist,5,4,TRUE,hollow-triumph defiance
+Imperial,Ulfric Stormcloak,5,5,TRUE,regal defiance under defeat; correct
+Imperial,Ancano,4,4,TRUE,conflicted; mild colloquial slip
+Imperial,Elenwen,3,3,TRUE,vague/neutral for band 4
+Imperial,The Dragonborn,4,3,TRUE,validator-flagged; content ok but no first-person
+Imperial,Hilde,5,4,TRUE,Imperial; anti-Thalmor
+Imperial,Sybille Stentor,5,4,TRUE,somber Imperial; price-paid
+Imperial,Garvey,5,4,TRUE,Imperial; anti-Thalmor colloquial
+Imperial,Borkul the Beast,4,4,TRUE,terse thug voice; fits
+Imperial,Tythis Ulen,5,3,TRUE,correct but restates stance
+Imperial,Voada,4,3,TRUE,near-restates stance descriptor
+Imperial,Thorygg Sun-Killer,4,3,TRUE,terse and correct
+Imperial,Festus Krex,5,4,TRUE,Imperial shield framing
+Imperial,Nurelion,5,4,TRUE,defeated Stormcloak; ominous
+Imperial,Grimvar Cruel-Sea,5,5,TRUE,vivid bitter Stormcloak
+Imperial,Aval Atheron,5,4,TRUE,unbroken-spirit Stormcloak
+Imperial,Angrenor Once-Honored,5,4,TRUE,lament for lost freedom
+Imperial,Hillevi Cruel-Sea,5,4,TRUE,bitter subjugation
+Imperial,Gort,5,4,TRUE,defiant Stormcloak
+Imperial,Lortheim,5,4,TRUE,false-triumph defiance
+Imperial,Adisla,4,4,TRUE,defiant; slight outcome tension
+Imperial,Quintus Navale,5,4,TRUE,order-and-justice loyalist
+Imperial,Hermir Strong-Heart,5,4,TRUE,Legion-banners loyalist
+Imperial,Calixto Corrium,5,3,TRUE,correct and plain
+Imperial,Viola Giordano,5,4,TRUE,benevolent-rule loyalist
+Imperial,Dulug,5,4,TRUE,anti-Stormcloak loyalist
+Imperial,Arivanya,5,4,TRUE,rebel-banners-down loyalist
+Imperial,Adonato Leotelli,5,4,TRUE,people-saw-sense loyalist
+Imperial,Stenvar,5,4,TRUE,Empire-holds-Skyrim-together
+Imperial,Boti,4,4,TRUE,wary Stormcloak under Imperial win
+Stormcloak,Brina Merilis,5,5,TRUE,ambivalent victor; traded-one-rule nuance
+Stormcloak,Dengeir of Stuhn,5,4,TRUE,free-but-flawed Stormcloak
+Stormcloak,Thongvor Silver-Blood,5,4,TRUE,relief at Empire fall
+Stormcloak,Ondolemar,4,4,TRUE,Imperial-leaning skeptic; correct
+Stormcloak,Maven Black-Briar,5,4,TRUE,Ulfric-strength framing
+Stormcloak,Elisif the Fair,5,4,TRUE,poetic necessary-war (canon-divergent draw)
+Stormcloak,General Tullius,5,4,TRUE,defeated loyalist; fears future; correct
+Stormcloak,Legate Rikke,4,3,TRUE,mournful loyalist; terse
+Stormcloak,Balgruuf the Greater,5,4,TRUE,needed-change Stormcloak
+Stormcloak,Fralia Gray-Mane,5,4,TRUE,Ulfric-did-what-needed
+Stormcloak,Idolaf Battle-Born,4,4,TRUE,grip-loosed Stormcloak
+Stormcloak,Vignar Gray-Mane,5,4,TRUE,tired-of-being-told Stormcloak
+Stormcloak,Brunwulf Free-Winter,5,5,TRUE,nuanced reservations; strong
+Stormcloak,Galmar Stone-Fist,4,4,TRUE,correct but subdued for a zealot
+Stormcloak,Ulfric Stormcloak,5,5,TRUE,Talos-worship nuance; on-point
+Stormcloak,Ancano,4,4,TRUE,Imperial-leaning worry; correct
+Stormcloak,Elenwen,4,4,TRUE,genuinely conflicted band 4
+Stormcloak,The Dragonborn,5,5,TRUE,Talos-blessing zeal; vivid
+Stormcloak,Florentius Baenius,5,4,TRUE,Ulfric-stands-tall
+Stormcloak,Wilhelm,5,4,TRUE,ambivalent bloodshed
+Stormcloak,Laila Law-Giver,5,4,TRUE,good-riddance with grief
+Stormcloak,Vighar,4,3,TRUE,correct but recycled grip trope
+Stormcloak,Ravyn Imyan,5,4,TRUE,iron-boot imagery
+Stormcloak,Jaree-Ra,5,3,TRUE,correct but slightly generic
+Stormcloak,Thaena,5,5,TRUE,distrustful-but-free; band-5 nuance nailed
+Stormcloak,Snorreid,4,3,TRUE,recycled grip trope
+Stormcloak,Idgrod the Younger,4,4,TRUE,conflicted band 4
+Stormcloak,Hemming Black-Briar,3,3,TRUE,leans right but vague
+Stormcloak,Sogrlaf (Skyrim),4,5,TRUE,excellent moral-conflict voice
+Stormcloak,Legate Emmanuel Admand,3,4,TRUE,traded-one-prison ambivalence
+Stormcloak,Gorm,3,4,TRUE,conflicted; lore-grounded Idgrod loyalty
+Stormcloak,Olur,4,4,TRUE,unsure-it-was-right conflict
+Stormcloak,Vigdis Salvius,4,5,TRUE,rich conflicted voice
+Stormcloak,Arnskar Ember-Master,3,4,TRUE,wondering-if-right
+Stormcloak,Bolfrida Brandy-Mug,5,5,TRUE,zealous-vigilant; watching sympathizers
+Stormcloak,Jora,4,4,TRUE,somber victor
+Stormcloak,Sofie,3,2,FALSE,recycled trope; too thin for a fervent NPC
+Stormcloak,Torsten Cruel-Sea,5,4,TRUE,rebuild-and-reclaim
+Stormcloak,Captain Lonely-Gale,4,4,TRUE,hard-won-freedom
+Stormcloak,Roggi Knot-Beard,5,4,TRUE,triumphant; correct
+Stormcloak,Belyn Hlaalu,5,5,TRUE,blood-on-snow imagery
+Stormcloak,Kjeld the Younger,4,4,TRUE,somber; recycled at-what-cost
+Stormcloak,Orthus Endario,5,5,TRUE,denial-defiance loyalist; strong
+Stormcloak,Ulundil,4,4,TRUE,mournful loyalist
+Stormcloak,Arivanya,4,4,TRUE,terse bitter loyalist
+Stormcloak,Calixto Corrium,5,4,TRUE,grave-mistake loyalist
+Stormcloak,Viola Giordano,5,4,TRUE,fears-future loyalist
+Stormcloak,Adonato Leotelli,5,4,TRUE,chaos-now loyalist
+Stormcloak,Quintus Navale,5,4,TRUE,future-lost-to-winds loyalist
+Stormcloak,Dravynea the Stoneweaver,1,3,FALSE,STANCE FLIP: staunch Imperial praises Empire leaving

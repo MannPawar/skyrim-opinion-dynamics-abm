@@ -1,5 +1,5 @@
 # Subsample existing 100-run simulation output to demonstrate Monte Carlo
-# convergence — defending the N=100 choice for the presentation (Slide 9).
+# convergence - defending the N=100 choice for the presentation (Slide 9).
 #
 # Approach: take the 100 saved runs per scenario, compute the SD of the
 # population mean across resamples of size N for N in {5, 10, 25, 50, 100}.

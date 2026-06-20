@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 # =====================================================================
-#  SLM DIALOGUE LAYER  —  generative front-end for the opinion-dynamics ABM
+#  SLM DIALOGUE LAYER  -  generative front-end for the opinion-dynamics ABM
 # ---------------------------------------------------------------------
 #  The ABM (FINALCOMPARATIVECAMPAIGN.R) remains the source of truth: it
 #  produces a terminal opinion state p_{i,t} = P(support Empire) for each
@@ -25,15 +25,20 @@ suppressPackageStartupMessages({
 # ----------------------------- CONFIG --------------------------------
 CFG <- list(
   ollama_url  = "http://localhost:11434/api/generate",
-  model       = "deepseek-r1:1.5b",
+  model       = "llama3.2:3b",  # instruction-tuned 3B: far better in-character
+                                # dialogue than the 1.5B reasoning model (see
+                                # demo); holds stance and avoids narration leak.
   input_csv   = "results/final_opinions.csv",
-  output_csv  = "results/slm_dialogue_all.csv",
+  output_csv  = "results/slm_dialogue_kb.csv",  # KB-augmented corpus (new file)
+  kb_csv      = "data/npc_lore_kb.csv",  # per-NPC lore KB (build_lore_kb.py)
+  kb_lines    = 3L,                       # canonical lines shown per prompt
   scenarios   = c("Imperial", "Stormcloak"),  # voice both campaigns
   run_id      = 1L,           # which Monte Carlo replication to voice
   all_npcs    = TRUE,         # TRUE = every NPC; FALSE = key_only + sample_n
   key_only    = TRUE,
   sample_n    = 4L,
-  temperature = 0.6,
+  temperature = 0.85,         # higher -> more lexical variety across NPCs
+  top_p       = 0.92,
   num_predict = 768L,         # generous: R1 thinks a lot; answer must survive
   seed        = 42L,
   max_retries = 2L,           # re-roll empty / out-of-character / non-English
@@ -71,8 +76,94 @@ scenario_world <- function(scenario) {
   }
 }
 
+# ------------------------- LORE KNOWLEDGE BASE -----------------------
+# Deterministic per-NPC lookup (not RAG): every NPC is known at inference
+# time, so we key a static knowledge base by Name. build_lore_kb.py scrapes
+# each NPC's UESP page for a one-line description and a handful of their own
+# canonical spoken lines. Those real lines calibrate the model's VOICE far
+# better than an abstract stance label can.
+load_kb <- function(path) {
+  if (!file.exists(path)) {
+    cat("Note: lore KB not found at", path,
+        "- running stance-only (no per-NPC lore).\n")
+    return(NULL)
+  }
+  kb <- fread(path)
+  setkey(kb, Name)
+  cat(sprintf("Lore KB: %d NPCs (%d with canonical lines).\n",
+              nrow(kb), sum(kb$n_lines > 0, na.rm = TRUE)))
+  kb
+}
+
+# Return a one-row list of lore for a name, or NULL if absent/empty.
+kb_lookup <- function(kb, name) {
+  if (is.null(kb)) return(NULL)
+  hit <- kb[.(name)]
+  if (nrow(hit) == 0L || is.na(hit$Name[1])) return(NULL)
+  na0   <- function(x) { x <- x[1]; if (is.null(x) || is.na(x)) "" else trimws(x) }
+  desc  <- na0(hit$description)
+  lines <- na0(hit$canonical_lines)
+  if (!nzchar(desc) && !nzchar(lines)) return(NULL)
+  list(description = desc, lines = lines)
+}
+
+# Build the lore block injected into the prompt. The canonical lines are
+# offered as a VOICE reference only, with an explicit no-copy instruction,
+# to get the model's dialect/register without the verbatim-parroting failure
+# mode seen when a single quotable example was provided.
+# Trim the lore description to identity grounding (who/where/job/kin) and
+# drop the clause that states the NPC's political role: the ABM, not the
+# wiki, owns the stance, and a small model otherwise latches onto a faction
+# noun in the bio and flips its politics (e.g. Tullius reading his own bio's
+# "Stormcloak Rebellion" as allegiance rather than opposition).
+sanitize_description <- function(desc) {
+  if (!nzchar(desc)) return("")
+  sents <- strsplit(desc, "(?<=[.!?])\\s+", perl = TRUE)[[1]]
+  pol <- "Empire|Imperial|Stormcloak|Ulfric|Thalmor|rebellion|rebel|Legion|civil war|Talos|independence|the war"
+  keep <- sents[!grepl(pol, sents, ignore.case = TRUE)]
+  if (!length(keep)) keep <- sents[1]          # never blank out everything
+  paste(keep, collapse = " ")
+}
+
+lore_block <- function(kb_entry) {
+  if (is.null(kb_entry)) return("")
+  parts <- character(0)
+  desc <- sanitize_description(kb_entry$description)
+  if (nzchar(desc)) {
+    parts <- c(parts, paste0("Your life (background only): ", desc))
+  }
+  if (nzchar(kb_entry$lines)) {
+    ln <- strsplit(kb_entry$lines, "\\s*\\|\\s*")[[1]]
+    ln <- ln[nzchar(ln)]
+    if (length(ln) > CFG$kb_lines) ln <- ln[seq_len(CFG$kb_lines)]
+    if (length(ln)) {
+      parts <- c(parts,
+        paste0("How you tend to speak (copy the dialect and cadence only, ",
+               "never repeat these lines or their content):\n",
+               paste0("  - ", ln, collapse = "\n")))
+    }
+  }
+  if (!length(parts)) return("")
+  paste0(paste(parts, collapse = "\n"), "\n\n")
+}
+
 # --------------------------- PROMPTING -------------------------------
-build_prompt <- function(row, scenario, strict = FALSE) {
+# Deterministically rotate the OPENING of each reply by NPC, so the corpus
+# does not collapse onto one stock opener (e.g. every line starting "The
+# Empire's grip..."). All styles are spoken first-person, never narration.
+opening_style <- function(name, scenario) {
+  styles <- c(
+    "Open with a concrete detail from your own life, trade, or family, then your view.",
+    "Open with a blunt verdict in a few words, then one reason for it.",
+    "Open with a short greeting to the traveler, then state plainly what you think.",
+    "Open mid-grumble, as if continuing a thought you were already chewing on.",
+    "Open with an oath or curse that fits your race and your mood.",
+    "Open by naming a person or a place you care about, then say what the end of the war means for them."
+  )
+  styles[(str_seed(paste0(scenario, name, "open")) %% length(styles)) + 1L]
+}
+
+build_prompt <- function(row, scenario, kb_entry = NULL, strict = FALSE) {
   stance <- stance_descriptor(row$Prob_t)
   world  <- scenario_world(scenario)
   faction_note <- if (row$Faction %in% c("Imperial", "Stormcloak")) {
@@ -96,13 +187,21 @@ build_prompt <- function(row, scenario, strict = FALSE) {
   paste0(
     "You are role-playing one character from The Elder Scrolls V: Skyrim.\n\n",
     "You are ", row$Name, ", a ", row$Race, " of ", row$Home_City, ".\n",
-    "Your conviction: you are ", stance, ".\n",
+    lore_block(kb_entry),
+    "Your conviction RIGHT NOW (this is what you believe, and it overrides ",
+    "anything your background might suggest): you are ", stance, ".\n",
     faction_note, "\n",
     "World state: ", world, "\n\n",
     "A traveler in a tavern asks what you make of how the civil war ended.\n\n",
     rules,
     "\nWrite in the terse, weathered voice of a Nord commoner or soldier. ",
-    "Invent your own words drawn from your conviction above; do not copy any phrasing from these instructions.\n\n",
+    "Invent your own words drawn from your conviction above; do not copy any phrasing from these instructions.\n",
+    "- ", opening_style(row$Name, scenario), "\n",
+    "- Do not begin your reply with the word 'The'.\n",
+    "- Avoid these worn phrases: 'at what cost', \"the Empire's grip\", ",
+    "'too tight', 'mark my words', 'for its own good', 'finally broken'. Find fresher words.\n",
+    "- Show your conviction through what you say; do not restate it word for word.\n",
+    "- State your own opinion plainly. Do not reply with only questions to the traveler.\n\n",
     "Now give your reply, beginning immediately with your own words:"
   )
 }
@@ -125,9 +224,14 @@ strip_think <- function(txt, npc_name = "") {
   trimws(out)
 }
 
+# Normalize a line for copy-detection (lowercase, drop punctuation/space).
+norm_line <- function(s) gsub("[^a-z0-9]", "", tolower(s))
+
 # Decide whether a cleaned line is acceptable in-character output.
 # Returns "" if OK, else a short reason code for logging / retry.
-line_problem <- function(line, npc_name) {
+# kb_entry (optional) lets us reject verbatim copies of the NPC's canonical
+# lines: the lore is meant to shape voice, not be parroted back.
+line_problem <- function(line, npc_name, kb_entry = NULL) {
   if (is.null(line) || is.na(line) || nchar(line) < 8) return("empty")
   if (grepl("[^\\x01-\\x7F]", line, perl = TRUE)) return("non-english")
   bad <- c("traveler", "you say", "you ask", "as an ai", "i'm your",
@@ -139,6 +243,15 @@ line_problem <- function(line, npc_name) {
     first <- strsplit(npc_name, " ")[[1]][1]
     if (grepl(paste0("\\b", first, "\\b"), line) &&
         !grepl("\\bI\\b|\\bI'|\\bmy\\b|\\bme\\b", line)) return("third-person")
+  }
+  # parroting guard: reject near-verbatim reuse of a supplied canonical line
+  if (!is.null(kb_entry) && nzchar(kb_entry$lines)) {
+    nl <- norm_line(line)
+    refs <- norm_line(strsplit(kb_entry$lines, "\\s*\\|\\s*")[[1]])
+    if (any(nchar(refs) > 0 & (nl == refs |
+            mapply(function(r) nchar(r) > 0 && grepl(r, nl, fixed = TRUE), refs)))) {
+      return("parroted")
+    }
   }
   ""
 }
@@ -154,6 +267,7 @@ call_slm_once <- function(prompt, seed) {
     stream = FALSE,
     options = list(
       temperature = CFG$temperature,
+      top_p       = CFG$top_p,
       num_predict = CFG$num_predict,
       seed        = seed
     )
@@ -169,14 +283,25 @@ call_slm_once <- function(prompt, seed) {
   resp_body_json(resp)$response %||% NA_character_
 }
 
+# Stable per-string hash (djb2 in double arithmetic, modulus keeps it in range)
+# -> deterministic per-NPC seed. Without this, same-stance NPCs with similar
+# lore collapse onto an identical sentence under a single fixed seed.
+str_seed <- function(s) {
+  h <- 5381
+  for (ch in utf8ToInt(s)) h <- (h * 33 + ch) %% 2147483629  # large prime < 2^31
+  h                                                          # stays a double
+}
+
 # Generate, validate, and re-roll up to max_retries on bad output.
 # Each retry bumps the seed and switches to the stricter prompt.
-generate_line <- function(row, scenario) {
+generate_line <- function(row, scenario, kb_entry = NULL) {
+  base_seed <- as.integer((as.double(CFG$seed) +
+                           str_seed(paste0(scenario, row$Name))) %% 2147483629)
   for (attempt in 0:CFG$max_retries) {
-    pr  <- build_prompt(row, scenario, strict = attempt > 0)
-    raw <- call_slm_once(pr, seed = CFG$seed + attempt)
+    pr  <- build_prompt(row, scenario, kb_entry = kb_entry, strict = attempt > 0)
+    raw <- call_slm_once(pr, seed = base_seed + attempt)
     line <- strip_think(raw, row$Name)
-    prob <- line_problem(line, row$Name)
+    prob <- line_problem(line, row$Name, kb_entry)
     if (!nzchar(prob)) return(list(line = line, attempts = attempt + 1L, status = "ok"))
   }
   list(line = line, attempts = CFG$max_retries + 1L, status = prob)
@@ -215,6 +340,7 @@ main <- function() {
   stopifnot(file.exists(CFG$input_csv))
   preflight()
   full <- fread(CFG$input_csv)
+  kb   <- load_kb(CFG$kb_csv)
 
   all_out <- list()
   done <- 0L
@@ -250,7 +376,8 @@ main <- function() {
     for (i in seq_len(nrow(sel))) {
       row <- sel[i]
       if (paste(scen, row$Name, sep = "") %in% done_keys) next  # already done
-      res <- generate_line(row, scen)
+      kb_entry <- kb_lookup(kb, row$Name)
+      res <- generate_line(row, scen, kb_entry)
       if (res$status == "ok") ok_s <- ok_s + 1L
       all_out[[length(all_out) + 1L]] <- data.table(
         Scenario  = scen,
@@ -263,7 +390,8 @@ main <- function() {
         Stance    = stance_descriptor(row$Prob_t),
         Dialogue  = res$line,
         Attempts  = res$attempts,
-        Status    = res$status
+        Status    = res$status,
+        KB_Augmented = !is.null(kb_entry)
       )
       done <- done + 1L
       if (done %% CFG$checkpoint_every == 0L) {

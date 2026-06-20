@@ -1,0 +1,121 @@
+Scenario,Name,Home_City,stance,voice,pass,reason
+Imperial,Thalmor,Transient_Wilderness,4,3,TRUE,pro-Empire but garbled Talos-rule reference
+Imperial,Ralof,Falkreath,5,4,TRUE,pro-Empire order (canon-divergent ABM draw)
+Imperial,Falas Selvayn,Transient_Wilderness,3,4,TRUE,accepts Imperial banners; stance implicit
+Imperial,Hathrasil,Markarth,5,4,TRUE,pro-Empire; meta-flagged on greeting only
+Imperial,Elder Othreloth,Transient_Wilderness,4,3,TRUE,pro-Empire; terse
+Imperial,Ghak,Transient_Wilderness,5,4,TRUE,pro-Empire; anti-Thalmor
+Imperial,Bodil,Dawnstar,2,3,FALSE,combat metaphor; no political content
+Imperial,Ri'saad,Transient_Wilderness,4,5,TRUE,strong Khajiit voice; anti-Thalmor
+Imperial,Sharamph,Transient_Wilderness,5,5,TRUE,lore-grounded; pro-Empire trade
+Imperial,Luaffyn,Windhelm,5,5,TRUE,defeated-Stormcloak defiance; correct
+Imperial,Kyr,Transient_Wilderness,5,4,TRUE,pro-Empire; meta-flagged on greeting only
+Imperial,Yngvar the Singer,Markarth,5,4,TRUE,Ulfric-lost framing; pro-Empire
+Imperial,Jora,Windhelm,5,5,TRUE,stain-on-soul defeated Stormcloak
+Imperial,Neloth,Transient_Wilderness,5,4,TRUE,Empire-held-the-line
+Imperial,Sorli the Builder,Transient_Wilderness,5,3,TRUE,pro-Empire; plain
+Imperial,Ivarstead Guard,Transient_Wilderness,3,4,TRUE,cynical which-shadow; ambivalent
+Imperial,Karita,Dawnstar,5,4,TRUE,pro-Empire; anti-Thalmor
+Imperial,Frabbi,Markarth,4,4,TRUE,Empire-kept-its-promise
+Imperial,Commander Caius,Whiterun,5,5,TRUE,soldierly pro-Empire; strong
+Imperial,Jorleif,Windhelm,3,4,TRUE,right lean but reacts to wrong outcome
+Imperial,Sosia Tremellia,Transient_Wilderness,5,4,TRUE,banner-flying pro-Empire
+Imperial,Bolfrida Brandy-Mug,Windhelm,5,4,TRUE,defiant-defeated Stormcloak hope
+Imperial,Idgrod Ravencrone,Morthal,3,4,TRUE,cryptic; traded-one-darkness ambivalence
+Imperial,Bralsa Drel,Transient_Wilderness,4,4,TRUE,needed-end; anti-Thalmor
+Imperial,Wuunferth the Unliving,Windhelm,5,5,TRUE,Helgen-curse defiance; strong
+Imperial,Batum gra-Bar,Transient_Wilderness,5,4,TRUE,safer-now pro-Empire
+Imperial,Gort,Windhelm,5,4,TRUE,banner-stain defeated Stormcloak
+Imperial,Orchendor,Transient_Wilderness,4,4,TRUE,Empire-kept-word
+Imperial,Drelas,Transient_Wilderness,4,3,TRUE,pro-Empire; brief
+Imperial,Hajvarr Iron-Hand,Transient_Wilderness,5,4,TRUE,Empire-on-doorstep; anti-Thalmor
+Imperial,Ancarion,Transient_Wilderness,3,4,TRUE,accepts peace but ambivalent
+Imperial,Grelka,Riften,5,4,TRUE,banners-over-Thalmor pro-Empire
+Imperial,Varona Nelas,Transient_Wilderness,4,4,TRUE,Empire-keeps-watch
+Imperial,Lord Harkon,Transient_Wilderness,4,4,TRUE,measure-of-peace with caveat
+Imperial,Voada,Markarth,4,3,TRUE,Empire-stops-Thalmor
+Imperial,Balimund,Riften,4,5,TRUE,smith voice; serve-the-Empire
+Imperial,Snilling,Solitude,4,3,TRUE,fields-safer-under-Tamriel
+Imperial,Gunjar,Transient_Wilderness,4,3,TRUE,near-restates stance
+Imperial,Falkreath Guard,Transient_Wilderness,3,2,FALSE,narration leak (parenthetical action)
+Imperial,Pactur,Transient_Wilderness,3,4,TRUE,pessimistic anti-Thalmor; hedged
+Imperial,Angvid,Transient_Wilderness,4,3,TRUE,pro-Empire; flagged on en-dash char
+Imperial,East Empire Warden,Solitude,5,4,TRUE,Legion-brought-order
+Imperial,Morwen,Transient_Wilderness,5,5,TRUE,shield-not-master; smith anecdote
+Imperial,Priestess of Arkay,Falkreath,5,5,TRUE,reasoned pro-Empire; wolves-at-bay
+Imperial,Faendal,Falkreath,3,4,TRUE,not-so-sure; anti-Thalmor lean
+Imperial,Perth,Transient_Wilderness,4,3,TRUE,banner-flies-high
+Imperial,Aela the Huntress,Whiterun,4,4,TRUE,accepts Imperial peace
+Imperial,Karita,Transient_Wilderness,3,4,TRUE,hard-won-peace; ambivalent phrasing
+Imperial,Hafjorg,Riften,4,3,TRUE,Legion-held-firm
+Imperial,Legate Emmanuel Admand,Markarth,5,4,TRUE,shield-against-Thalmor
+Imperial,Reldith,Whiterun,4,4,TRUE,anti-Thalmor pro-Empire
+Imperial,Tormir,Transient_Wilderness,5,4,TRUE,new-dawn pro-Empire
+Imperial,Lucia,Whiterun,4,3,TRUE,safe-from-Thalmor
+Imperial,J'Kier,Transient_Wilderness,5,4,TRUE,right-choice pro-Empire
+Imperial,Gonnar Oath-Giver,Transient_Wilderness,4,4,TRUE,Thalmor-at-bay oath
+Imperial,Margret,Transient_Wilderness,4,4,TRUE,holdfast-back-under-Imperial
+Imperial,Salonia Caelia,Transient_Wilderness,5,4,TRUE,banners-wave; resist-Thalmor
+Imperial,Vignar Gray-Mane,Whiterun,5,4,TRUE,glad-for-order (canon-divergent draw)
+Imperial,Saffir,Whiterun,5,5,TRUE,holding-together nuance; family anecdote
+Imperial,Sybille Stentor,Solitude,5,5,TRUE,lore-grounded; Elisif court mage
+Stormcloak,Eirid,Winterhold,5,5,TRUE,Talos-oath; freedom-at-last
+Stormcloak,Captain Lonely-Gale,Windhelm,5,5,TRUE,timber-trade anecdote; free-to-trade
+Stormcloak,Hafjorg,Riften,4,3,TRUE,Ulfric-visitor; positive but thin
+Stormcloak,Estormo,Transient_Wilderness,3,3,TRUE,sardonic noncommittal
+Stormcloak,Sern,Transient_Wilderness,4,3,TRUE,Empire-pulled-back
+Stormcloak,Jordis the Sword-Maiden,Solitude,5,4,TRUE,distrust-Emperor band-5 nuance
+Stormcloak,Kerah,Markarth,5,5,TRUE,silver-lining; jeweler anecdote
+Stormcloak,Heimvar,Solitude,5,5,TRUE,visionary-or-madman nuance
+Stormcloak,Endarie,Solitude,5,4,TRUE,woe-to-Empire; thin-veil-justice
+Stormcloak,Laila Law-Giver,Riften,5,4,TRUE,boots-off-necks; Ulfric-will
+Stormcloak,Atub,Transient_Wilderness,5,4,TRUE,Empire-as-weight
+Stormcloak,Vulwulf Snow-Shod,Riften,5,5,TRUE,trade anecdote; looked-at-sideways
+Stormcloak,Balimund,Riften,5,4,TRUE,free-but-wary; right-choice
+Stormcloak,Voldsea Giryon,Windhelm,4,4,TRUE,Ulfric-burned-the-rot
+Stormcloak,Ma'tasarr,Transient_Wilderness,3,3,TRUE,generic glad-it-over
+Stormcloak,Saden,Transient_Wilderness,4,5,TRUE,questions-Ulfric-motives; band-4 nuance
+Stormcloak,Eisa Blackthorn,Transient_Wilderness,5,4,TRUE,puppet-on-strings rejection
+Stormcloak,Inge Six Fingers,Solitude,4,4,TRUE,conflicted; meta-flagged on greeting
+Stormcloak,Helgird,Windhelm,4,4,TRUE,freedom-over-victory
+Stormcloak,Perth,Transient_Wilderness,4,4,TRUE,Ulfric-won-against-odds
+Stormcloak,Harlaug,Dawnstar,4,3,TRUE,pro-Stormcloak; short
+Stormcloak,Faryl Atheron,Windhelm,3,3,TRUE,underwhelming for high p
+Stormcloak,Hjaalmarch Guard,Transient_Wilderness,5,4,TRUE,freedom-to-rebuild anecdote
+Stormcloak,Falk Firebeard,Solitude,5,4,TRUE,smoldering-rebellion; Ulfric-vision
+Stormcloak,Tsrasuna,Transient_Wilderness,5,4,TRUE,freedom-at-a-price; time-to-heal
+Stormcloak,Beitild,Dawnstar,5,5,TRUE,lore-grounded miner; welcome-back
+Stormcloak,Tandil,Transient_Wilderness,5,4,TRUE,Empire-hand-cut-short
+Stormcloak,Elda Early-Dawn,Windhelm,5,5,TRUE,Talos-worship-free; fervent
+Stormcloak,Gwilin,Transient_Wilderness,5,4,TRUE,rot-the-Empire; wonders-at-Ulfric
+Stormcloak,Jofthor,Transient_Wilderness,5,3,TRUE,right-vision; comic typo booties
+Stormcloak,Karl,Dawnstar,5,5,TRUE,lost-brother; ours-again; poignant
+Stormcloak,Valdr,Falkreath,5,4,TRUE,right-thing-with-doubt
+Stormcloak,Aia Arria,Solitude,5,5,TRUE,weight-lifted; free-folk anecdote
+Stormcloak,Mogrul,Transient_Wilderness,3,4,TRUE,a-blow-to-me but sees-justice; mixed
+Stormcloak,Vanik,Transient_Wilderness,5,4,TRUE,land-back; govern-ourselves
+Stormcloak,Garuk Windrime,Transient_Wilderness,4,4,TRUE,wary; watchful-eyes
+Stormcloak,Bryling,Solitude,4,4,TRUE,freedom-as-different-burden; wary
+Stormcloak,Thaena,Winterhold,5,5,TRUE,own-hands-over-Imperial; band-5 nuance
+Stormcloak,Vilod,Falkreath,5,4,TRUE,Empire-too-weak; stand-together
+Stormcloak,Ralis Sedarys,Transient_Wilderness,4,4,TRUE,Aldmeri-filth; Stormcloak-justice
+Stormcloak,Vantus Loreius,Transient_Wilderness,4,4,TRUE,got-what-was-owed
+Stormcloak,Sifnar Ironkettle,Windhelm,2,2,FALSE,too thin; no readable stance
+Stormcloak,Tacitus Sallustius,Markarth,5,4,TRUE,fought-fair; anti-Imperial
+Stormcloak,Aringoth,Transient_Wilderness,5,4,TRUE,lore-grounded; fair-and-square
+Stormcloak,Naris Mavani,Transient_Wilderness,5,4,TRUE,vision-grows-on-you
+Stormcloak,Crescius Caerellius,Transient_Wilderness,5,5,TRUE,Raven-Rock anecdote; Eastmarch-free
+Stormcloak,Snorreid,Solitude,5,4,TRUE,free-from-draining-Imperials
+Stormcloak,Oslaf,Transient_Wilderness,5,4,TRUE,not-lyin-down; stray quote mark
+Stormcloak,Sibbi Black-Briar,Riften,5,4,TRUE,live-as-we-fit; in-character criminal
+Stormcloak,Mulush gro-Shugurz,Markarth,3,3,TRUE,generic scars-run-deep
+Stormcloak,Hefid the Deaf,Riften,4,4,TRUE,new-master-in-shadows; distrustful
+Stormcloak,Dorthe,Falkreath,5,4,TRUE,threw-em-out; fair-fight
+Stormcloak,Sorex Vinius,Solitude,3,3,TRUE,cryptic; mild Stormcloak lean
+Stormcloak,Dravin Llanith,Riften,4,4,TRUE,struck-a-chord; band-4
+Stormcloak,Assur,Winterhold,5,4,TRUE,Empire-rule-is-dust; freedom-worth-more
+Stormcloak,Istar Cairn-Breaker,Transient_Wilderness,5,4,TRUE,free-by-gods-will
+Stormcloak,Gerda,Whiterun,5,4,TRUE,curse-Empire-arrogance; heavy-price
+Stormcloak,Fanari Strong-Voice,Transient_Wilderness,5,4,TRUE,Empire-overestimated; Ulfric-strength
+Stormcloak,Luaffyn,Windhelm,3,4,TRUE,grief without clear stance for high p
+Stormcloak,Windhelm Guard,Transient_Wilderness,4,4,TRUE,better-off-without-Imperial-hands

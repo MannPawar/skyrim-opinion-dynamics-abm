@@ -1,0 +1,5 @@
+metric,k,n,rate,lo,hi,mean_stance,mean_voice
+stance_consistent (>=4),102,120,0.85,0.775,0.903,4.38,3.98
+flip (stance==1),0,120,0,0,0.031,4.38,3.98
+voice_pass (>=3),118,120,0.983,0.941,0.995,4.38,3.98
+overall_pass,117,120,0.975,0.929,0.991,4.38,3.98

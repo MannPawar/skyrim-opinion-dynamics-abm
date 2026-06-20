@@ -96,15 +96,15 @@ KEY_NPCS <- c(
      # Other influential named characters
      "Maven Black-Briar", "Brunwulf Free-Winter", "Brina Merilis",
      "Dengeir of Stuhn", "Thongvor Silver-Blood",
-     # Thalmor — named agents with high political influence
+     # Thalmor - named agents with high political influence
      "Elenwen", # First Emissary, attends peace council
      "Ancano", # Thalmor operative at College of Winterhold
      "Ondolemar", # Thalmor Justiciar in Markarth
-     # Dragonborn — added programmatically per scenario in append_dragonborn()
+     # Dragonborn - added programmatically per scenario in append_dragonborn()
      "The Dragonborn"
 )
 
-# Named Thalmor agents — used for targeted opinion prior and influence overrides
+# Named Thalmor agents - used for targeted opinion prior and influence overrides
 THALMOR_AGENTS <- c("Elenwen", "Ancano", "Ondolemar")
 # Immovable political elites for the Zealot scenario
 ZEALOT_NAMES <- c(
@@ -252,7 +252,7 @@ load_and_prepare_data <- function(file_path) {
                Kappa = case_when(
                     Name %in% c("Ulfric Stormcloak", "General Tullius") ~ 80,
                     Name %in% c("Galmar Stone-Fist", "Legate Rikke") ~ 60,
-                    # Thalmor are ideologically rigid about staying at 0.50 —
+                    # Thalmor are ideologically rigid about staying at 0.50 -
                     # tight prior centred on neutrality, not on either faction
                     Name %in% THALMOR_AGENTS ~ 75,
                     Is_Key_NPC ~ 20,
@@ -348,8 +348,8 @@ load_and_prepare_data <- function(file_path) {
 # not during data loading, because their attributes differ per scenario.
 #
 # Key properties:
-#   - Influence_Score_Norm = 1.0 (maximum — unique legendary status)
-#   - Kappa = 90 (near-deterministic opinion — they chose a side)
+#   - Influence_Score_Norm = 1.0 (maximum - unique legendary status)
+#   - Kappa = 90 (near-deterministic opinion - they chose a side)
 #   - Talos_Conviction differs: Nord Dragonborn devout, Imperial less so
 
 append_dragonborn <- function(agents_df, scenario_name) {
@@ -482,7 +482,7 @@ build_agent_arrays <- function(agents_df) {
 #               since faction changes during simulation)
 # Diagonal zeroed to prevent self-interaction.
 #
-# This matrix is (n × n) = ~1M entries for 1009 agents — about
+# This matrix is (n × n) = ~1M entries for 1009 agents - about
 # 8 MB as a double matrix, computed once and reused every time step.
 
 build_static_weight_matrix <- function(ag) {
@@ -526,15 +526,15 @@ create_scenarios <- function() {
 # ============================================================
 # KEY VECTORIZATION CHANGES vs previous version:
 #
-#  OLD: nested for(i) for(j) loop — O(n*K) R-level iterations per step
+#  OLD: nested for(i) for(j) loop - O(n*K) R-level iterations per step
 #  NEW: single apply() call samples all partner indices;
 #       diffs, BC mask, and updates all use matrix arithmetic (compiled C)
 #
-#  OLD: for(k) shock loop — O(n) R-level iterations per event
-#  NEW: rnorm(n), element-wise multiply — single vectorized pass
+#  OLD: for(k) shock loop - O(n) R-level iterations per event
+#  NEW: rnorm(n), element-wise multiply - single vectorized pass
 #
-#  OLD: rowwise() %>% mutate(rbeta(1,...)) — slow row-by-row evaluation
-#  NEW: rbeta(n, beta_a, beta_b) — single vectorized draw
+#  OLD: rowwise() %>% mutate(rbeta(1,...)) - slow row-by-row evaluation
+#  NEW: rbeta(n, beta_a, beta_b) - single vectorized draw
 #
 # Total inner-loop R iterations per run:
 #   Old: 150 steps × (1009 agents × 5 partners + noise) ≈ 756,750 iterations
@@ -544,7 +544,7 @@ run_mc_simulation_vec <- function(ag, schedule, scenario_name, run_id, use_zealo
      n <- ag$n
      snap_times <- unique(schedule$time_step)
 
-     # Pre-extract schedule columns to plain vectors — avoids data.frame
+     # Pre-extract schedule columns to plain vectors - avoids data.frame
      # row access ($, [[) inside the hot loop
      sched_t <- schedule$time_step
      sched_hold <- schedule$hold_to_flip
@@ -564,11 +564,11 @@ run_mc_simulation_vec <- function(ag, schedule, scenario_name, run_id, use_zealo
      hold_cur <- ag$hold
 
      # Encode faction as integer: 1=Stormcloak, -1=Imperial, 0=Neutral
-     # Never use string vectors inside the time loop — allocation is too slow
+     # Never use string vectors inside the time loop - allocation is too slow
      fac_cur <- as.integer(opinions > 0.6) - as.integer(opinions < 0.4)
 
      # Trajectory stored as a plain numeric matrix (Agent × 1 per snapshot)
-     # — much faster to build than data.frames; converted to df at the end
+     # - much faster to build than data.frames; converted to df at the end
      traj_opinions <- matrix(NA_real_, nrow = n, ncol = length(snap_times))
      snap_i <- 1L
 
@@ -652,7 +652,7 @@ run_mc_simulation_vec <- function(ag, schedule, scenario_name, run_id, use_zealo
 
           # ---- (f) Idiosyncratic noise ----
           # Zealot Immunity: Zealots are structurally immovable narrative
-          # anchors — they must not drift via random noise. Without this
+          # anchors - they must not drift via random noise. Without this
           # guard, rnorm jitter over 150 steps could (rarely) push a zealot
           # across a faction threshold, which is narratively incoherent.
           noise <- rnorm(n, 0, 0.01)
@@ -695,7 +695,7 @@ run_mc_simulation_vec <- function(ag, schedule, scenario_name, run_id, use_zealo
                hold_cur[in_hold] <- new_allegiance
           }
 
-          # Update faction as integer — NO string allocation
+          # Update faction as integer - NO string allocation
           fac_cur <- as.integer(opinions > 0.6) - as.integer(opinions < 0.4)
 
           # Snapshot: store only the numeric opinion vector
@@ -790,8 +790,8 @@ run_monte_carlo_parallel <- function(ag, scenario, agents_df, use_zealots = FALS
      ))
      cat(sprintf("  %s\n", strrep("-", 75)))
 
-     # Worker — fully self-contained for serialisation to socket workers
-     # Worker — fully self-contained for serialisation to socket workers
+     # Worker - fully self-contained for serialisation to socket workers
+     # Worker - fully self-contained for serialisation to socket workers
      worker <- function(run_id) {
           set.seed(CONFIG$SEED + run_id)
           run_mc_simulation_vec(ag_sc, schedule, sc_name, run_id, use_zealots)
@@ -806,7 +806,7 @@ run_monte_carlo_parallel <- function(ag, scenario, agents_df, use_zealots = FALS
                ),
                envir = environment()
           )
-          # Workers only need base R — no tidyverse required in the sim engine
+          # Workers only need base R - no tidyverse required in the sim engine
           clusterEvalQ(cl, {
                library(stats)
                library(parallel)
@@ -818,7 +818,7 @@ run_monte_carlo_parallel <- function(ag, scenario, agents_df, use_zealots = FALS
      results_list <- vector("list", n_runs)
      batch_start_t <- Sys.time()
      completed <- 0L
-     # Incremental mean/SD tracking — O(1) per batch, not O(completed)
+     # Incremental mean/SD tracking - O(1) per batch, not O(completed)
      running_sum <- 0
      running_sum2 <- 0
      running_n <- 0L
@@ -907,7 +907,7 @@ run_monte_carlo_parallel <- function(ag, scenario, agents_df, use_zealots = FALS
 cat("STEP 1: Loading Data\n")
 cat("---------------------\n")
 df_agents <- load_and_prepare_data(CONFIG$DATA_PATH)
-# Thalmor agents (Elenwen, Ancano, Ondolemar) confirmed present in CSV —
+# Thalmor agents (Elenwen, Ancano, Ondolemar) confirmed present in CSV -
 # no manual append needed. Diagnostic above will flag if any are missing.
 
 cat("STEP 2: Precomputing Base Agent Arrays\n")
@@ -932,7 +932,7 @@ cat("  to empirically validate the necessity of the anchoring mechanism.\n\n")
 set.seed(CONFIG$SEED)
 start_time <- Sys.time()
 
-# PRIMARY: Anchored Leaders — key NPCs are immovable narrative anchors
+# PRIMARY: Anchored Leaders - key NPCs are immovable narrative anchors
 # This is the main model WITH narrative anchors enabled by default.
 mc_imperial <- run_monte_carlo_parallel(ag, SCENARIOS$IMPERIAL, df_agents, use_zealots = TRUE)
 mc_stormcloak <- run_monte_carlo_parallel(ag, SCENARIOS$STORMCLOAK, df_agents, use_zealots = TRUE)
@@ -966,7 +966,7 @@ summary_stats <- results_df %>%
      )
 
 boot_results <- results_df %>%
-     # Step 1: collapse to one mean per run — this is what we're uncertain about
+     # Step 1: collapse to one mean per run - this is what we're uncertain about
      group_by(scenario, run_id) %>%
      summarise(run_mean = mean(Prob_t), .groups = "drop") %>%
      # Step 2: bootstrap over those N_RUNS values (not over 300k agent observations)
@@ -1425,7 +1425,7 @@ ks_imp_baseline <- normal_results$Prob_t[normal_results$scenario == "Imperial"]
 ks_imp_zealot <- zealot_results$Prob_t[zealot_results$scenario == "Imperial"]
 ks_result <- ks.test(ks_imp_baseline, ks_imp_zealot)
 
-cat(sprintf("\nKS Test (Anchored Primary vs Pliant Counterfactual — Imperial scenario):\n"))
+cat(sprintf("\nKS Test (Anchored Primary vs Pliant Counterfactual - Imperial scenario):\n"))
 cat(sprintf("  D-statistic : %.4f\n", ks_result$statistic))
 cat(sprintf("  p-value     : %.2e\n", ks_result$p.value))
 cat(sprintf(
